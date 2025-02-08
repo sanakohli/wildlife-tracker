@@ -60,17 +60,30 @@ async function getCountyInfoFromLatLng(lat, lng) {
   }
 }
 
-
 function HoverHandler() {
-  const map = useMap(); 
+  const map = useMap();
+  const [countyData, setCountyData] = useState({ county: "", state: "", countyFips: "" });
+  const [population, setPopulation] = useState(null);
 
   useEffect(() => {
-    // Function to handle mouseover event on the map
+    // Only fetch population data when county name changes
+    if (countyData.county && countyData.countyFips) {
+      fetchPopulationData(countyData.countyFips).then((population) => {
+        setPopulation(population);
+      });
+    }
+  }, [countyData]);
+
+  useEffect(() => {
     const handleMouseOver = async (event) => {
-      const latlng = event.latlng;  // Latitude and Longitude of the mouse event
-      // Get county information dynamically based on lat/lng
+      const latlng = event.latlng; // Latitude and Longitude of the mouse event
       const { county, state, countyFips } = await getCountyInfoFromLatLng(latlng.lat, latlng.lng);
 
+      // Only update if county is different
+      if (county !== countyData.county) {
+        setCountyData({ county, state, countyFips });
+        setPopulation(null); // Reset population before fetching new data
+      }
 
       // Create and show popup
       const popup = L.popup()
@@ -78,11 +91,10 @@ function HoverHandler() {
         .setContent(`You are hovering over ${county}, ${state}`)
         .openOn(map);
 
-      // Fetch population data for the county using the FIPS code
-      const population = await fetchPopulationData(countyFips);
-
-      // Update the popup with the population data
-      popup.setContent(`County: ${county}<br>Population: ${population}`);
+      // Update the popup with the population data after fetching
+      if (population !== null) {
+        popup.setContent(`County: ${county}<br>Population: ${population}`);
+      }
     };
 
     // Add mouse event listener to the map
@@ -92,14 +104,15 @@ function HoverHandler() {
     return () => {
       map.off("mousemove", handleMouseOver);
     };
-  }, [map]);
+  }, [map, countyData, population]);
 
-  return null;  // The component doesn't render anything, it just handles the event
+  return null;
 }
 
 export default function Map() {
   const position = [30.2672, -97.7431]; // Default center position (Austin, TX)
   const [map, setMap] = useState(null);
+  
 
   useEffect(() => {
     if (!map) return;
