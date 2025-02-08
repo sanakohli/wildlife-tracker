@@ -13,11 +13,12 @@ const openStreet = tileLayer(
 );
 
 const gbif = tileLayer(
-  "https://api.gbif.org/v2/map/occurrence/density/{z}/{x}/{y}@1x.png?publishingCountry=US&year=2000,2030&style=fire.point",
+  "https://api.gbif.org/v2/map/occurrence/adhoc/{z}/{x}/{y}@1x.png?style=scaled.circles&mode=GEO_CENTROID&locale=en&country=US&year=1990%2C2025&advanced=false&occurrenceStatus=present&iucnRedListCategory=EN&srs=EPSG%3A3857&squareSize=256",
   {
     attribution: '<a href="https://www.gbif.org">GBIF</a>',
     zoomOffset: -1,
     tileSize: 512,
+    opacity: 0.5,
   }
 );
 
