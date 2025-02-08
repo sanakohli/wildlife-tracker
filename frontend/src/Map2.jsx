@@ -1,10 +1,13 @@
+import React from "react";
 import { MapContainer, TileLayer, GeoJSON } from "react-leaflet";
 import { useState } from "react";
 import "leaflet/dist/leaflet.css";
 import countyGeoJson from "./counties.json";
+import Timeline from "./Timeline";
 
 export default function Map2() {
   const [hoveredCounty, setHoveredCounty] = useState(null);
+  const [year, setYear] = React.useState(2010);
 
   const onEachFeature = (feature, layer) => {
     layer.on({
@@ -40,6 +43,7 @@ export default function Map2() {
           style={{ weight: 1, color: "black" }}
         />
       </MapContainer>
+      <Timeline year={year} setYear={setYear} />
     </div>
   );
 }
