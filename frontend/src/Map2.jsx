@@ -48,7 +48,6 @@ export default function Map2() {
       },
       mouseout: (e) => {
         setHoveredCounty(null);
-        e.target.setStyle({ weight: 1, color: "black" });
       },
     });
   };
@@ -69,7 +68,15 @@ export default function Map2() {
         <GeoJSON
           data={countyGeoJson}
           onEachFeature={onEachFeature}
+          opacity={0.6}
           style={{ weight: 1, color: "black" }}
+        />
+        <TileLayer
+          url="https://api.gbif.org/v2/map/occurrence/adhoc/{z}/{x}/{y}@1x.png?style=scaled.circles&mode=GEO_CENTROID&locale=en&country=US&year=1990%2C2025&advanced=false&occurrenceStatus=present&iucnRedListCategory=EN&srs=EPSG%3A3857&squareSize=256"
+          attribution='<a href="https://www.gbif.org">GBIF</a>'
+          zoomOffset={-1}
+          tileSize={512}
+          opacity={1}
         />
       </MapContainer>
       <Timeline year={year} setYear={setYear} />

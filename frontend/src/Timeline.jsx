@@ -9,7 +9,7 @@ export default function Timeline(props) {
     },
     {
       value: 2016,
-      label: "2010",
+      label: "2016",
     },
     {
       value: 2023,
@@ -47,10 +47,10 @@ export default function Timeline(props) {
         getAriaValueText={valuetext}
         step={1}
         marks={marks}
-        // valueLabelDisplay="on"
+        valueLabelDisplay="auto"
         min={2009}
         max={2023}
-        sx={{ height: "7px" }}
+        sx={{ height: "10px", marginTop: "24px" }}
       />
       <h3 style={{ margin: "5px" }}>Years</h3>
     </Card>
