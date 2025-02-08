@@ -8,10 +8,17 @@ export default function Timeline(props) {
       label: "1990",
     },
     {
+      value: 2000,
+      label: "2000",
+    },
+    {
       value: 2010,
       label: "2010",
     },
-
+    {
+      value: 2020,
+      label: "2020",
+    },
     {
       value: 2030,
       label: "2030",
@@ -46,7 +53,7 @@ export default function Timeline(props) {
         aria-label="Always visible"
         defaultValue={2010}
         getAriaValueText={valuetext}
-        step={10}
+        step={1}
         marks={marks}
         // valueLabelDisplay="on"
         min={1990}

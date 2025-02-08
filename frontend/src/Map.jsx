@@ -22,9 +22,9 @@ const gbif = tileLayer(
 );
 
 // Function to fetch population data from the Census API
-async function fetchPopulationData(fips) {
+async function fetchPopulationData(fips, year) {
   const apiKey = "bfc8ad381595852cdf120078d2bb4ce23679bed5";
-  const url = `https://api.census.gov/data/2021/acs/acs5?get=B01003_001E&for=county:${fips.substring(
+  const url = `https://api.census.gov/data/${year}/acs/acs5?get=B01003_001E&for=county:${fips.substring(
     2
   )}&in=state:${fips.substring(0, 2)}&key=${apiKey}`;
 
@@ -62,7 +62,7 @@ async function getCountyInfoFromLatLng(lat, lng) {
   }
 }
 
-function HoverHandler() {
+function HoverHandler({ year }) {
   const map = useMap();
   const [countyData, setCountyData] = useState({
     county: "",
@@ -72,13 +72,13 @@ function HoverHandler() {
   const [population, setPopulation] = useState(null);
 
   useEffect(() => {
-    // Only fetch population data when county name changes
-    if (countyData.county && countyData.countyFips) {
-      fetchPopulationData(countyData.countyFips).then((population) => {
+    // Only fetch population data when county name and year changes
+    if (countyData.county && countyData.countyFips && year) {
+      fetchPopulationData(countyData.countyFips, year).then((population) => {
         setPopulation(population);
       });
     }
-  }, [countyData]);
+  }, [countyData, year]);
 
   useEffect(() => {
     const handleMouseOver = async (event) => {
@@ -146,7 +146,7 @@ export default function Map() {
           url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
           attribution="&copy; <a href='https://carto.com/'>CARTO</a>"
         />
-        <HoverHandler /> {/* This component handles the hover events */}
+        <HoverHandler year={year} /> {/* This component handles the hover events */}
       </MapContainer>
       <Timeline year={year} setYear={setYear} />
     </div>
