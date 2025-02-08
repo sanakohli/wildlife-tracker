@@ -4,24 +4,16 @@ import { Box, Slider, Card } from "@mui/material";
 export default function Timeline(props) {
   const marks = [
     {
-      value: 1990,
-      label: "1990",
-    },
-    {
-      value: 2000,
+      value: 2009,
       label: "2000",
     },
     {
-      value: 2010,
+      value: 2016,
       label: "2010",
     },
     {
-      value: 2020,
-      label: "2020",
-    },
-    {
-      value: 2030,
-      label: "2030",
+      value: 2023,
+      label: "2023",
     },
   ];
 
@@ -56,8 +48,8 @@ export default function Timeline(props) {
         step={1}
         marks={marks}
         // valueLabelDisplay="on"
-        min={1990}
-        max={2030}
+        min={2009}
+        max={2023}
         sx={{ height: "7px" }}
       />
       <h3 style={{ margin: "5px" }}>Years</h3>
