@@ -10,7 +10,7 @@ export default function Map() {
     <div style={{ height: "100vh", width: "100%" }}>
       <MapContainer
         center={position}
-        zoom={13}
+        zoom={7}
         style={{ height: "100%", width: "100%" }}
       >
         <TileLayer
