@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { MapContainer, TileLayer, useMap } from "react-leaflet";
 import { tileLayer } from "leaflet";
 import "leaflet/dist/leaflet.css";
-import L from "leaflet";  // Import Leaflet for using 'L' object
+import L from "leaflet"; // Import Leaflet for using 'L' object
 import Timeline from "./Timeline";
 
 const openStreet = tileLayer(
@@ -17,14 +17,16 @@ const gbif = tileLayer(
   {
     attribution: '<a href="https://www.gbif.org">GBIF</a>',
     zoomOffset: -1,
-    tileSize: 512
+    tileSize: 512,
   }
 );
 
 // Function to fetch population data from the Census API
 async function fetchPopulationData(fips) {
-  const apiKey = 'bfc8ad381595852cdf120078d2bb4ce23679bed5';
-  const url = `https://api.census.gov/data/2021/acs/acs5?get=B01003_001E&for=county:${fips.substring(2)}&in=state:${fips.substring(0, 2)}&key=${apiKey}`;
+  const apiKey = "bfc8ad381595852cdf120078d2bb4ce23679bed5";
+  const url = `https://api.census.gov/data/2021/acs/acs5?get=B01003_001E&for=county:${fips.substring(
+    2
+  )}&in=state:${fips.substring(0, 2)}&key=${apiKey}`;
 
   try {
     const response = await fetch(url);
@@ -37,17 +39,17 @@ async function fetchPopulationData(fips) {
 }
 
 async function getCountyInfoFromLatLng(lat, lng) {
-  const openCageApiKey = '1545c750cf764e909c009e78442f9ac7';
+  const openCageApiKey = "1545c750cf764e909c009e78442f9ac7";
   const openCageUrl = `https://api.opencagedata.com/geocode/v1/json?q=${lat}+${lng}&key=${openCageApiKey}`;
 
   try {
     const response = await fetch(openCageUrl);
     const data = await response.json();
-    
+
     const county = data.results[0]?.components?.county;
     const state = data.results[0]?.components?.state_code;
     const countyFips = data.results[0]?.annotations?.FIPS?.county;
-    
+
     if (!county || !countyFips) {
       console.error("County or FIPS not found:", data);
       return { county: "Unknown", state: "Unknown", countyFips: null };
@@ -62,7 +64,11 @@ async function getCountyInfoFromLatLng(lat, lng) {
 
 function HoverHandler() {
   const map = useMap();
-  const [countyData, setCountyData] = useState({ county: "", state: "", countyFips: "" });
+  const [countyData, setCountyData] = useState({
+    county: "",
+    state: "",
+    countyFips: "",
+  });
   const [population, setPopulation] = useState(null);
 
   useEffect(() => {
@@ -77,7 +83,10 @@ function HoverHandler() {
   useEffect(() => {
     const handleMouseOver = async (event) => {
       const latlng = event.latlng; // Latitude and Longitude of the mouse event
-      const { county, state, countyFips } = await getCountyInfoFromLatLng(latlng.lat, latlng.lng);
+      const { county, state, countyFips } = await getCountyInfoFromLatLng(
+        latlng.lat,
+        latlng.lng
+      );
 
       // Only update if county is different
       if (county !== countyData.county) {
@@ -112,14 +121,18 @@ function HoverHandler() {
 export default function Map() {
   const position = [30.2672, -97.7431]; // Default center position (Austin, TX)
   const [map, setMap] = useState(null);
-  
 
+  const [year, setYear] = React.useState(2010);
   useEffect(() => {
     if (!map) return;
     // map.addLayer(openStreet);
-    console.log('use ');
+    console.log("use ");
     map.addLayer(gbif);
   }, [map]);
+
+  useEffect(() => {
+    console.log(year);
+  }, [year]);
 
   return (
     <div style={{ height: "100vh", width: "100%" }}>
@@ -135,7 +148,7 @@ export default function Map() {
         />
         <HoverHandler /> {/* This component handles the hover events */}
       </MapContainer>
-      <Timeline />
+      <Timeline year={year} setYear={setYear} />
     </div>
   );
 }

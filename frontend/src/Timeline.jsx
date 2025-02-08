@@ -1,7 +1,7 @@
 import React from "react";
 import { Box, Slider, Card } from "@mui/material";
 
-export default function Timeline() {
+export default function Timeline(props) {
   const marks = [
     {
       value: 1990,
@@ -19,7 +19,8 @@ export default function Timeline() {
   ];
 
   function valuetext(value) {
-    return `${value}`;
+    props.setYear(value);
+    return value;
   }
 
   return (
