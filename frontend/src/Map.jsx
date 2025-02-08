@@ -2,6 +2,7 @@
 import React from "react";
 import { MapContainer, TileLayer } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
+import Timeline from "./Timeline";
 
 export default function Map() {
   const position = [30.2672, -97.7431];
@@ -18,6 +19,7 @@ export default function Map() {
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         />
       </MapContainer>
+      <Timeline></Timeline>
     </div>
   );
 }
