@@ -11,14 +11,12 @@ export default function Map2() {
       mouseover: (e) => {
         setHoveredCounty(feature.properties.NAME);
         e.target.setStyle({ weight: 3, color: "blue" });
+        const popupContent = `<b>${feature.properties.NAME}</b><b>${feature.properties.NAME}</b>`;
+        e.target.bindPopup(popupContent).openPopup();
       },
       mouseout: (e) => {
         setHoveredCounty(null);
         e.target.setStyle({ weight: 1, color: "black" });
-      },
-      click: (e) => {
-        const popupContent = `<b>${feature.properties.NAME}</b><b>${feature.properties.NAME}</b>`;
-        e.target.bindPopup(popupContent).openPopup();
       },
     });
   };
@@ -28,7 +26,7 @@ export default function Map2() {
     <div>
       <MapContainer
         center={position}
-        zoom={5}
+        zoom={7}
         style={{ height: "100vh", width: "100%" }}
       >
         <TileLayer
