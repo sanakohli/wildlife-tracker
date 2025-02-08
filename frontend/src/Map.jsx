@@ -147,7 +147,8 @@ export default function Map() {
           url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
           attribution="&copy; <a href='https://carto.com/'>CARTO</a>"
         />
-        <HoverHandler year={year} /> {/* This component handles the hover events */}
+        <HoverHandler year={year} />{" "}
+        {/* This component handles the hover events */}
       </MapContainer>
       <Timeline year={year} setYear={setYear} />
     </div>
