@@ -23,7 +23,7 @@ export default function Timeline() {
   }
 
   return (
-    <Box
+    <Card
       sx={{
         width: 500,
         position: "fixed",
@@ -53,6 +53,6 @@ export default function Timeline() {
         sx={{ height: "7px" }}
       />
       <h3 style={{ margin: "5px" }}>Years</h3>
-    </Box>
+    </Card>
   );
 }
