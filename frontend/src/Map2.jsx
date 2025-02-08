@@ -7,11 +7,8 @@ export default function Map2() {
   const [hoveredCounty, setHoveredCounty] = useState(null);
 
   const onEachFeature = (feature, layer) => {
-    layer.bindTooltip(feature.properties.name, { permanent: false });
-
     layer.on({
       mouseover: (e) => {
-        console.log(feature.properties);
         setHoveredCounty(feature.properties.NAME);
         e.target.setStyle({ weight: 3, color: "blue" });
       },
@@ -20,7 +17,7 @@ export default function Map2() {
         e.target.setStyle({ weight: 1, color: "black" });
       },
       click: (e) => {
-        const popupContent = `<b>${feature.properties.name}</b>`;
+        const popupContent = `<b>${feature.properties.NAME}</b><b>${feature.properties.NAME}</b>`;
         e.target.bindPopup(popupContent).openPopup();
       },
     });
@@ -45,7 +42,6 @@ export default function Map2() {
           style={{ weight: 1, color: "black" }}
         />
       </MapContainer>
-      {/* {hoveredCounty && <div style={{ zIndex: 9999 }}>{hoveredCounty}</div>} */}
     </div>
   );
 }
