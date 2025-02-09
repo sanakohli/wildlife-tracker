@@ -25,10 +25,10 @@ export default function Legend(props) {
   return (
     <Box
       sx={{
-        height: "400px",
+        width: "400px",
         position: "fixed",
-        top: 150,
-        left: 1100,
+        bottom: 15,
+        right: 15,
         // top: 100,
         // left: 600,
         zIndex: 1000,
@@ -36,68 +36,90 @@ export default function Legend(props) {
         // paddingLeft: "40px",
         // paddingRight: "40px",
         // paddingBottom: "20px",
-        padding: "0px 10px 20px 10px !important",
+        paddingTop: "5px",
+        // padding: "0px 10px 20px 10px !important",
         borderRadius: "8px",
         display: "flex",
         justifyContent: "center",
-        flexDirection: "row",
+        flexDirection: "column",
         textAlign: "center",
+        alignContent: "center",
+        alignItems: "center",
       }}
     >
       <div
         style={{
-          height: "100%",
+          width: "100%",
           display: "flex",
           alignItems: "center",
           flexDirection: "column",
         }}
       >
-        <h4>Endangered</h4>
+        <h4 style={{ marginTop: "5px", marginBottom: "10px" }}>Endangered</h4>
         <Box
           sx={{
-            background: "linear-gradient(#EB7F70, #CBAD5F)",
-            height: "85%",
-            width: "15px",
+            background: "linear-gradient(to left, #EB7F70, #CBAD5F)",
+            width: "85%",
+            height: "15px",
             borderRadius: "8px",
           }}
         ></Box>
+        <div
+          style={{
+            width: "85%",
+            display: "flex",
+            justifyContent: "space-between",
+          }}
+        >
+          <h6 style={{ margin: "2px" }}>Low Volume</h6>
+          <h6 style={{ margin: "2px" }}>High Volume</h6>
+        </div>
       </div>
       <div
         style={{
-          height: "100%",
+          width: "100%",
           display: "flex",
           alignItems: "center",
           flexDirection: "column",
-          marginLeft: "20px",
         }}
       >
-        <h4>Risk</h4>
+        <h4 style={{ marginTop: "5px", marginBottom: "10px" }}>Risk</h4>
         <Box
           sx={{
-            background: "linear-gradient(#000035, #90d5ff)",
-            height: "85%",
-            width: "15px",
+            background: "linear-gradient(to left, #000035, #90d5ff)",
+            width: "85%",
+            height: "15px",
             borderRadius: "8px",
           }}
         ></Box>
+        <div
+          style={{
+            width: "85%",
+            display: "flex",
+            justifyContent: "space-between",
+          }}
+        >
+          <h6 style={{ margin: "2px" }}>Low</h6>
+          <h6 style={{ margin: "2px" }}>High</h6>
+        </div>
       </div>
-      <div style={{ height: "100%" }}>
-        <h4>Years</h4>
+      <div style={{ width: "100%" }}>
+        <h4 style={{ margin: "5px" }}>Years</h4>
         <Slider
           aria-label="Always visible"
           defaultValue={2010}
           getAriaValueText={valuetext}
           step={1}
           marks={marks}
-          // valueLabelDisplay="auto"
+          valueLabelDisplay="auto"
           min={2009}
           max={2023}
           sx={{
-            height: "85%",
-            marginLeft: "24px",
-            width: "10px",
+            width: "85%",
+            height: "10px",
+            marginTop: "2px",
           }}
-          orientation="vertical"
+          //   orientation="vertical"
         />
       </div>
     </Box>
