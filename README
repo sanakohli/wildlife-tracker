@@ -1,3 +1,5 @@
+# Wildlife in the Wild West
+
 Mapping population and wildlife data to visualize what species may be at risk from population growth
-- show data over the years
-- model future population growth
+- show population data over the years
+- model a county's 'danger score' based on population growth and wildlife data to predict where wildlife may be at risk
