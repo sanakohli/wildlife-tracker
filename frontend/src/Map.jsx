@@ -3,7 +3,9 @@ import { MapContainer, TileLayer, GeoJSON } from "react-leaflet";
 import { useState, useCallback } from "react";
 import "leaflet/dist/leaflet.css";
 import countyGeoJson from "./counties.json";
+import countyData from "./countyData.json";
 import Legend from "./Legend";
+import * as d3 from "d3";
 
 // Function to fetch population data from the Census API
 async function fetchPopulationData(state, county, year) {
@@ -25,6 +27,11 @@ export default function Map() {
   const [year, setYear] = React.useState(2010);
   const [population, setPopulation] = useState(null);
 
+  const colorScale = d3
+    .scaleLinear()
+    .domain([0, 100]) // Adjust the domain based on your data range (0 to 100 percentile)
+    .range(["#90d5ff", "#000035"]);
+
   const onEachFeature = useCallback(
     (feature, layer) => {
       layer.on({
@@ -41,7 +48,6 @@ export default function Map() {
           if (fetchedPopulation !== null) {
             const popupContent = `<b>${feature.properties.NAME}</b><br><b>Population: ${fetchedPopulation}</b>`;
             e.target.bindPopup(popupContent).openPopup();
-            setPopulation(fetchedPopulation);
           } else {
             const popupContent = `<b>${feature.properties.NAME}</b><br><b>Population data not available</b>`;
             e.target.bindPopup(popupContent).openPopup();
@@ -54,6 +60,7 @@ export default function Map() {
     },
     [year] // Depend on the `year` state
   );
+
   const position = [30.2672, -97.7431]; // Default center position (Austin, TX)
 
   return (
@@ -73,7 +80,17 @@ export default function Map() {
           data={countyGeoJson}
           onEachFeature={onEachFeature}
           opacity={0.6}
-          style={{ weight: 1, color: "black" }}
+          style={(feature) => {
+            const countyName = feature.properties.NAME;
+            const percentile = countyData[countyName] || 0;
+
+            return {
+              weight: 1,
+              color: "black",
+              fillColor: colorScale(percentile),
+              fillOpacity: 0.6, // Adjust transparency
+            };
+          }}
         />
         <TileLayer
           url="https://api.gbif.org/v2/map/occurrence/adhoc/{z}/{x}/{y}@1x.png?style=scaled.circles&mode=GEO_CENTROID&locale=en&country=US&year=1990%2C2025&advanced=false&occurrenceStatus=present&iucnRedListCategory=EN&srs=EPSG%3A3857&squareSize=256"
