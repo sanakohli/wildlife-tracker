@@ -1,5 +1,6 @@
 # %%
 import pandas as pd
+import json
 from sklearn.linear_model import LinearRegression
 input_df = pd.read_csv('data/input_df.csv')
 
@@ -20,13 +21,14 @@ y = input_df['future_5_yr_change_species']
 reg = LinearRegression().fit(X, y)
 coef = pd.DataFrame({'feature':X.columns,'coef':reg.coef_})
 print(coef.head().to_string())
-rmse = 
+rmse = ((reg.predict(X) - y) ** 2).mean() ** .5
+print(f'rmse {rmse}')
 
 X = input_df[['1_yr_change_species','1_yr_change_pop']]
 y = input_df['future_5_yr_change_species']
 reg2 = LinearRegression().fit(X, y)
 coef = pd.DataFrame({'feature':X.columns,'coef':reg2.coef_})
-print(coef.head().to_string())
+# print(coef.head().to_string())
 
 # %%
 input_df = pd.read_csv('data/input_df.csv')
@@ -42,7 +44,7 @@ print(f'len pred df {len(X_pred)}')
 
 y_pred = reg.predict(X_pred)
 pred_df['predicted_5_yr_change_species'] = y_pred
-pred_df['danger_score'] = pred_df['predicted_5_yr_change_species'].rank(pct=True)
+pred_df['danger_score'] = pred_df['predicted_5_yr_change_species'].rank(pct=True, ascending=False)
 print(pred_df.to_string())
 # %%
 
@@ -56,5 +58,10 @@ print(pred_df2.to_string())
 # print(pred_df2[pred_df2['fips'].isnull()])
 print('num null fips ',len(pred_df2[pred_df2['fips'].isnull()]))
 pred_df2 = pred_df2[['county_state','danger_score']]
-pred_df2.to_json('data/pred_df.json', orient='records')
+out = {}
+for row in pred_df2.itertuples():
+    out[row.county_state] = row.danger_score
+with open('pred.json', 'w') as json_file:
+    json.dump(out, json_file, indent=4)
 # pred_df2.to_csv('data/pred_df.csv', index=False)
+# %%
