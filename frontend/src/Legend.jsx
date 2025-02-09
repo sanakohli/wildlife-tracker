@@ -38,7 +38,7 @@ export default function Legend(props) {
         borderRadius: "8px",
         display: "flex",
         justifyContent: "center",
-        flexDirection: "column",
+        flexDirection: "row",
         textAlign: "center",
       }}
     >
@@ -61,6 +61,7 @@ export default function Legend(props) {
           orientation="vertical"
         />
       </div>
+      <div></div>
     </Card>
   );
 }
