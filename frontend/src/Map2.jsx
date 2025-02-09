@@ -3,7 +3,7 @@ import { MapContainer, TileLayer, GeoJSON } from "react-leaflet";
 import { useState } from "react";
 import "leaflet/dist/leaflet.css";
 import countyGeoJson from "./counties.json";
-import Timeline from "./Timeline";
+import Legend from "./Legend";
 
 // Function to fetch population data from the Census API
 async function fetchPopulationData(state, county, year) {
@@ -29,14 +29,13 @@ export default function Map2() {
     layer.on({
       mouseover: async (e) => {
         setHoveredCounty(feature.properties.NAME);
-        e.target.setStyle({ weight: 3, color: "blue" });
         // Fetch population data for the hovered county
         const fetchedPopulation = await fetchPopulationData(
           feature.properties.STATEFP,
           feature.properties.COUNTYFP,
           year
         );
-        
+
         if (fetchedPopulation !== null) {
           const popupContent = `<b>${feature.properties.NAME}</b><br><b>Population: ${fetchedPopulation}</b>`;
           e.target.bindPopup(popupContent).openPopup();
@@ -79,7 +78,7 @@ export default function Map2() {
           opacity={1}
         />
       </MapContainer>
-      <Timeline year={year} setYear={setYear} />
+      <Legend year={year} setYear={setYear} />
     </div>
   );
 }
