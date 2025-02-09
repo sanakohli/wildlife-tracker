@@ -3,7 +3,7 @@ import { MapContainer, TileLayer, GeoJSON } from "react-leaflet";
 import { useState, useCallback } from "react";
 import "leaflet/dist/leaflet.css";
 import countyGeoJson from "./counties.json";
-import countyData from "./countyData.json";
+import pred from "./data/pred.json";
 import Legend from "./Legend";
 import * as d3 from "d3";
 
@@ -29,7 +29,7 @@ export default function Map() {
 
   const colorScale = d3
     .scaleLinear()
-    .domain([0, 100]) // Adjust the domain based on your data range (0 to 100 percentile)
+    .domain([0, 1]) // Adjust the domain based on your data range (0 to 100 percentile)
     .range(["#90d5ff", "#000035"]);
 
   const onEachFeature = useCallback(
@@ -82,7 +82,9 @@ export default function Map() {
           opacity={0.6}
           style={(feature) => {
             const countyName = feature.properties.NAME;
-            const percentile = countyData[countyName] || 0;
+            const statefp = feature.properties.STATEFP;
+            const percentile = pred[countyName + "_" + statefp] || 0;
+            // console.log(percentile)
 
             return {
               weight: 1,
