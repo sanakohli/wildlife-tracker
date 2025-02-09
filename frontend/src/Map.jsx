@@ -46,7 +46,16 @@ export default function Map() {
           );
 
           if (fetchedPopulation !== null) {
-            const popupContent = `<b>${feature.properties.NAME}</b><br><b>Population: ${fetchedPopulation}</b>`;
+            const countyName = feature.properties.NAME;
+            const statefp = feature.properties.STATEFP;
+            const percentile = pred[countyName + "_" + statefp] * 100 || 0;
+            const popupContent = `<b style="margin-bottom: 2;">${
+              feature.properties.NAME
+            }</b><br>Population: <b>${Number(
+              fetchedPopulation
+            ).toLocaleString()}</b><br/>Risk Percentile:<h2 style="margin-top: 0;">${parseFloat(
+              percentile
+            ).toFixed(1)}</h2>`;
             e.target.bindPopup(popupContent).openPopup();
           } else {
             const popupContent = `<b>${feature.properties.NAME}</b><br><b>Population data not available</b>`;
