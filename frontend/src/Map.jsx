@@ -30,7 +30,6 @@ export default function Map() {
       layer.on({
         mouseover: async (e) => {
           setHoveredCounty(feature.properties.NAME);
-          e.target.setStyle({ weight: 3, color: "blue" });
 
           // Fetch population data for the hovered county
           const fetchedPopulation = await fetchPopulationData(
