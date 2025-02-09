@@ -1,6 +1,6 @@
 import React from "react";
 import { MapContainer, TileLayer, GeoJSON } from "react-leaflet";
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import "leaflet/dist/leaflet.css";
 import countyGeoJson from "./counties.json";
 import Legend from "./Legend";
@@ -25,31 +25,36 @@ export default function Map2() {
   const [year, setYear] = React.useState(2010);
   const [population, setPopulation] = useState(null);
 
-  const onEachFeature = (feature, layer) => {
-    layer.on({
-      mouseover: async (e) => {
-        setHoveredCounty(feature.properties.NAME);
-        // Fetch population data for the hovered county
-        const fetchedPopulation = await fetchPopulationData(
-          feature.properties.STATEFP,
-          feature.properties.COUNTYFP,
-          year
-        );
+  const onEachFeature = useCallback(
+    (feature, layer) => {
+      layer.on({
+        mouseover: async (e) => {
+          setHoveredCounty(feature.properties.NAME);
+          e.target.setStyle({ weight: 3, color: "blue" });
 
-        if (fetchedPopulation !== null) {
-          const popupContent = `<b>${feature.properties.NAME}</b><br><b>Population: ${fetchedPopulation}</b>`;
-          e.target.bindPopup(popupContent).openPopup();
-          setPopulation(fetchedPopulation);
-        } else {
-          const popupContent = `<b>${feature.properties.NAME}</b><br><b>Population data not available</b>`;
-          e.target.bindPopup(popupContent).openPopup();
-        }
-      },
-      mouseout: (e) => {
-        setHoveredCounty(null);
-      },
-    });
-  };
+          // Fetch population data for the hovered county
+          const fetchedPopulation = await fetchPopulationData(
+            feature.properties.STATEFP,
+            feature.properties.COUNTYFP,
+            year
+          );
+
+          if (fetchedPopulation !== null) {
+            const popupContent = `<b>${feature.properties.NAME}</b><br><b>Population: ${fetchedPopulation}</b>`;
+            e.target.bindPopup(popupContent).openPopup();
+            setPopulation(fetchedPopulation);
+          } else {
+            const popupContent = `<b>${feature.properties.NAME}</b><br><b>Population data not available</b>`;
+            e.target.bindPopup(popupContent).openPopup();
+          }
+        },
+        mouseout: (e) => {
+          setHoveredCounty(null);
+        },
+      });
+    },
+    [year] // Depend on the `year` state
+  );
   const position = [30.2672, -97.7431]; // Default center position (Austin, TX)
 
   return (
@@ -65,6 +70,7 @@ export default function Map2() {
           opacity={0.3}
         />
         <GeoJSON
+          key={year}
           data={countyGeoJson}
           onEachFeature={onEachFeature}
           opacity={0.6}
