@@ -47,7 +47,7 @@ export default function Timeline(props) {
         getAriaValueText={valuetext}
         step={1}
         marks={marks}
-        valueLabelDisplay="auto"
+        valueLabelDisplay="on"
         min={2009}
         max={2023}
         sx={{ height: "10px", marginTop: "24px", padding: "4px" }}
