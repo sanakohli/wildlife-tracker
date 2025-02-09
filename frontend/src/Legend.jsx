@@ -29,15 +29,9 @@ export default function Legend(props) {
         position: "fixed",
         bottom: 15,
         right: 15,
-        // top: 100,
-        // left: 600,
         zIndex: 1000,
         backgroundColor: "white",
-        // paddingLeft: "40px",
-        // paddingRight: "40px",
-        // paddingBottom: "20px",
         paddingTop: "5px",
-        // padding: "0px 10px 20px 10px !important",
         borderRadius: "8px",
         display: "flex",
         justifyContent: "center",
@@ -119,7 +113,6 @@ export default function Legend(props) {
             height: "10px",
             marginTop: "2px",
           }}
-          //   orientation="vertical"
         />
       </div>
     </Box>
